@@ -98,10 +98,10 @@ public class Chapter implements Serializable {
     @Override
     public String toString() {
         return
-                "\n\t\tname: " + name +
-                        "\n\t\tparentLegion: " + parentLegion +
-                        "\n\t\tmarinesCount: " + marinesCount +
-                        "\n\t\tworld: " + world
+                "\nname: " + name +
+                        "\nparentLegion: " + parentLegion +
+                        "\nmarinesCount: " + marinesCount +
+                        "\nworld: " + world
                 ;
     }
 }

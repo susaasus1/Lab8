@@ -19,7 +19,7 @@ public class DataBase {
     public DataBase(String login, String password) throws ClassNotFoundException {
         Class.forName("org.postgresql.Driver");
         try {
-            connection = DriverManager.getConnection("jdbc:postgresql://localhost:5430/studs", login, password);
+            connection = DriverManager.getConnection("jdbc:postgresql://localhost/Laba", login, password);
             statement = connection.createStatement();
         } catch (SQLException e) {
             e.printStackTrace();
@@ -88,7 +88,23 @@ public class DataBase {
             throw new NotDatabaseUpdateException("Объект chapter не был добавлен");
         }
     }
-
+    public int isertName(String name,int userId)throws SQLException, NotDatabaseUpdateException{
+        PreparedStatement preparedStatement =
+                connection.prepareStatement("insert into spacemarines (name) values (?) returning id");
+        preparedStatement.setString(1, name);
+        try {
+            if (preparedStatement.execute()) {
+                ResultSet rs = preparedStatement.getResultSet();
+                if (rs.next()) {
+                    return rs.getInt("id");
+                }
+            }
+            throw new NotDatabaseUpdateException("Объект Name не был добавлен");
+        } catch (PSQLException e) {
+            System.out.println(e.getMessage());
+            throw new NotDatabaseUpdateException("Объект Name не был добавлен");
+        }
+    }
     public int insert(SpaceMarine spaceMarine, int userID) throws SQLException, NotDatabaseUpdateException {
         int coordsID = insert(spaceMarine.getCoordinates());
         int chapterID = insert(spaceMarine.getChapter());
@@ -267,7 +283,14 @@ public class DataBase {
         preparedStatement.setLong(9, id);
         preparedStatement.execute();
     }
-
+    public void updateName(Long id,String name) throws SQLException,NotDatabaseUpdateException{
+        PreparedStatement preparedStatement = connection.prepareStatement("update spacemarines set " +
+                "(name) " +
+                "= (?) where id=?");
+        preparedStatement.setString(1,name);
+        preparedStatement.setLong(2, id);
+        preparedStatement.execute();
+    }
     public void deleteUserNotes(int userID) throws SQLException {
         PreparedStatement preparedStatement = connection.prepareStatement("delete from spacemarines where user_id=?");
         preparedStatement.setInt(1, userID);

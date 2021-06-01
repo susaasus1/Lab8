@@ -1,7 +1,4 @@
-import Answers.Answer;
-import Answers.ErrorAnswer;
-import Answers.OkAnswer;
-import Answers.Request;
+import Answers.*;
 import Commands.*;
 import Data.SpaceMarine;
 import Data.SpaceMarines;
@@ -36,7 +33,7 @@ public class Interpreter extends Thread {
 //        this.fileTxt=fileTxt;
 //        logger.addHandler(fileTxt);
 
-        CommandManager manager = CommandManager.getInstance("s313089", "fpz798");
+        CommandManager manager = CommandManager.getInstance("postgres", "20021700sa ");
         manager.initCommand(ExitCommand.class, "exit", "Выход, без сохранения");
         manager.initCommand(InfoCommand.class, "info", "Выводит информацию о коллекции");
         manager.initCommand(HelpCommand.class, "help", "Выводит справку по коммандам");
@@ -55,7 +52,7 @@ public class Interpreter extends Thread {
         manager.initCommand(FilterLessThanWeaponTypeCommand.class,"filter_less_than_weapon_type","Выводит элементы, значение поля weaponType которых меньше заданного",String.class);
         manager.initCommand(AuthCommand.class, "auth", "Авторизует пользователя", User.class);
         manager.initCommand(RegisterCommand.class, "register", "Региструет пользователя", User.class);
-
+        manager.initCommand(UpdateData.class,"upda","");
         CommandManager.updateCollection();
         this.sender=sender;
         this.socket=socket;
@@ -81,10 +78,23 @@ public class Interpreter extends Thread {
         User user = request.getUser();
         Command cmd = request.getCommand();
         Object[] args = request.getArgs();
+        OkAnswer ok;
         try{
-            sender.send(new OkAnswer(CommandManager.execute(user,cmd, args)),da.getAddress(),da.getPort());
-
+            if (cmd.getName().equals("upda")) {
+                ok =new OkAnswer(CommandManager.execute(user, cmd, args));
+                ok.setType(TypeAnswer.DATA);
+                sender.send(ok, da.getAddress(), da.getPort());
+                System.out.println("hhahah");
+            }
+            else{
+                System.out.println("hihiih" +
+                        "");
+                ok =new OkAnswer(CommandManager.execute(user, cmd, args));
+                ok.setType(TypeAnswer.DEFAULT);
+                sender.send(ok, da.getAddress(), da.getPort());
+            }
         } catch (NullPointerException e){
+            System.out.println("HUUUUUY");
             sender.send(new ErrorAnswer("Сервер не смог выполнить команду"), socket.getInetAddress(), socket.getPort());
             e.printStackTrace();
         }
@@ -102,7 +112,7 @@ public class Interpreter extends Thread {
                 args = CommandManager.concatArgs(args, fillableArg);
 
                 CommandManager.validate(command, args);
-                logger.info(CommandManager.execute(new User("server", "server"), command, args));
+                logger.info(CommandManager.execute(new User("server", "server"), command, args).toString());
                 logger.info("Команда успешна провалидирована");
             } catch (NotFoundCommandException | IllegalArgumentException e) {
                 logger.log(Level.SEVERE, "Error message", e);

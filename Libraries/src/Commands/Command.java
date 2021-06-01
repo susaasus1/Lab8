@@ -60,5 +60,7 @@ public abstract class Command implements Serializable {
         return getSignature() + " - " + description;
     }
 
-    public abstract String execute(User user, DataBase dataBase, SpaceMarines spaceMarines, Object... args);
+    public abstract Object execute(User user, DataBase dataBase, SpaceMarines spaceMarines, Object... args);
+
+
 }

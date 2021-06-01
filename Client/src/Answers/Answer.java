@@ -1,16 +1,25 @@
 package Answers;
 
+
 import java.io.Serializable;
 
 public abstract class Answer implements Serializable {
-    protected String answer;
+    private static final long serialVersionUID = -7768203184167854883L;
+    protected Object answer;
+    public TypeAnswer ty;
 
-    public Answer(String answer) {
+    public Answer(Object answer) {
         this.answer = answer;
     }
 
-    public String getAnswer(){ return answer; }
+    public Object getAnswer(){ return answer; }
 
+    public void setType(TypeAnswer type){
+        this.ty=type;
+    }
+    public TypeAnswer getType(){
+        return ty;
+    }
     public abstract void logAnswer();
     public abstract void printAnswer();
 }

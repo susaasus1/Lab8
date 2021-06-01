@@ -6,8 +6,8 @@
         <element id="module-output" name="Server" />
         <element id="module-output" name="Libraries" />
       </element>
-      <element id="file-copy" path="$PROJECT_DIR$/Libraries/lib/postgresql-42.2.12.jre6.jar" />
       <element id="file-copy" path="$PROJECT_DIR$/Libraries/lib/postgresql-42.2.12.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/Libraries/lib/postgresql-42.2.12.jre6.jar" />
     </root>
   </artifact>
 </component>

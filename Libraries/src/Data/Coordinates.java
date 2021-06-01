@@ -64,4 +64,12 @@ public class Coordinates implements Serializable {
     public int hashCode() {
         return Objects.hash(x, y);
     }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
+    }
 }

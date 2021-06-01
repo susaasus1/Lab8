@@ -1,11 +1,13 @@
 <component name="ArtifactManager">
-  <artifact type="jar" name="Client:jar">
+  <artifact name="Client:jar">
     <output-path>$PROJECT_DIR$/out/artifacts/Client_jar</output-path>
-    <root id="archive" name="Client.jar">
-      <element id="module-output" name="Client" />
-      <element id="module-output" name="Libraries" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/Libraries/lib/postgresql-42.2.12.jre6.jar" path-in-jar="/" />
-      <element id="extracted-dir" path="$PROJECT_DIR$/Libraries/lib/postgresql-42.2.12.jar" path-in-jar="/" />
+    <root id="root">
+      <element id="archive" name="Client.jar">
+        <element id="module-output" name="Client" />
+        <element id="module-output" name="Libraries" />
+      </element>
+      <element id="file-copy" path="$PROJECT_DIR$/Libraries/lib/postgresql-42.2.12.jar" />
+      <element id="file-copy" path="$PROJECT_DIR$/Libraries/lib/postgresql-42.2.12.jre6.jar" />
     </root>
   </artifact>
 </component>

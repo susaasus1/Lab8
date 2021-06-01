@@ -1,3 +1,5 @@
+package client;
+
 public class PrintConsole {
     public static void print(Object toOut) {
         System.out.print(toOut);

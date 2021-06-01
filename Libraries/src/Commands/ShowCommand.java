@@ -25,6 +25,7 @@ public class ShowCommand extends Command {
                     for (Object o : out) {
                         builder.append(o).append("\n");
                     }
+                    CommandManager.updateCollection();
                     return builder.toString();
 
                 }

@@ -31,6 +31,7 @@ public class UpdateCommand extends Command implements Fillable {
                         SpaceMarine dbSpaceMarine = db.selectSpaceMarine(id);
                         if (user.getLogin().equals(dbSpaceMarine.getOwner().getLogin())) {
                             db.update(id, spaceMarine);
+                            CommandManager.updateCollection();
                             return "Объект успешно обновлен";
                         }
                         return "У вас нет прав на измение этого объекта";

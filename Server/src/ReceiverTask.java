@@ -16,7 +16,6 @@ public class ReceiverTask implements Runnable {
     public static final Logger logger = Logger.getLogger(Receiver.class.getName());
     private DatagramSocket socket;
     private Interpreter interpreter;
-    private FileHandler fileTxt;
 
 
     public ReceiverTask(DatagramSocket socket, Interpreter interpreter) {
@@ -39,9 +38,10 @@ public class ReceiverTask implements Runnable {
                 ObjectInputStream objectInputStream = new ObjectInputStream(byteArrayInputStream);
 
                 Request request = (Request) objectInputStream.readObject();
-                logger.info("Получен запрос от " + datagramPacket.getAddress() + ":" +
-                        datagramPacket.getPort() + " - " + request.getCommand().getName() + Arrays.toString(request.getArgs()));
-                interpreter.putCommand(request,datagramPacket);
+                    logger.info("Получен запрос от " + datagramPacket.getAddress() + ":" +
+                            datagramPacket.getPort() + " - " + request.getCommand().getName() + Arrays.toString(request.getArgs()));
+                    interpreter.putCommand(request, datagramPacket);
+
                 byteArrayInputStream.close();
                 objectInputStream.close();
             } catch (IOException | ClassNotFoundException e) {

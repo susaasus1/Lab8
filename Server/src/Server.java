@@ -1,3 +1,4 @@
+import Commands.CommandManager;
 import Data.SpaceMarines;
 import Exceptions.CommandAlreadyExistsException;
 import Exceptions.RightException;
@@ -20,7 +21,7 @@ public class Server {
 
     private static ThreadPoolExecutor executor;
     //FIXME НЕ ЗАБЫТЬ ПРЕКРУТИТЬ ЛОГИ ОБРАТНО
-    public static void main(String[] args) throws SameIdException, InvocationTargetException, IllegalAccessException, InstantiationException, RightException, NoSuchMethodException, CommandAlreadyExistsException, IOException, ClassNotFoundException {
+    public static void main(String[] args) throws SameIdException, InvocationTargetException, IllegalAccessException, InstantiationException, RightException, NoSuchMethodException, CommandAlreadyExistsException, IOException, ClassNotFoundException, InterruptedException {
         String envVariable="";
         if (args.length==0){
             throw new ArrayIndexOutOfBoundsException();
@@ -37,10 +38,10 @@ public class Server {
         fileTxt=new FileHandler(source);
         formatterTxt = new SimpleFormatter();
         fileTxt.setFormatter(formatterTxt);
-        logger.addHandler(fileTxt);
+
     }
 
-    public void launch() throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, CommandAlreadyExistsException, SameIdException, RightException, IOException, ClassNotFoundException {
+    public void launch() throws IllegalAccessException, InstantiationException, NoSuchMethodException, InvocationTargetException, CommandAlreadyExistsException, SameIdException, RightException, IOException, ClassNotFoundException, InterruptedException {
         DatagramSocket socket = setSocket();
         if (socket != null) {
             logger.info("Сервер запущен");
@@ -50,7 +51,7 @@ public class Server {
             Interpreter interpreter = new Interpreter(sender,socket);
             interpreter.start();
             Receiver receiver = new Receiver(socket, interpreter);
-
+//            SenderUpdater sen=new SenderUpdater(socket,CommandManager.spaceMarines,socket.getInetAddress(),socket.getPort());
 
             receiver.setDaemon(true);
             receiver.start();
@@ -58,6 +59,7 @@ public class Server {
             shutDownHook();
             while (true) {
                 interpreter.askCommand(scanner);
+//                sen.start();
             }
         }
     }

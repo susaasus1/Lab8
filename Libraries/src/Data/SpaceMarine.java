@@ -20,7 +20,12 @@ public class SpaceMarine implements Comparable<SpaceMarine>,Serializable {
     private Weapon weaponType;
     private Chapter chapter;
     private User owner;
-
+    private float x;
+    private int y;
+    private String names;
+    private String world;
+    private String legion;
+    private Integer count;
     public void setCreationDate(LocalDate creationDate) {
         this.creationDate = creationDate;
     }
@@ -41,6 +46,45 @@ public class SpaceMarine implements Comparable<SpaceMarine>,Serializable {
     public SpaceMarine() {
     }
 
+    @Override
+    public int hashCode() {
+        return super.hashCode();
+    }
+
+    public void setNames(String names) {
+        this.names = names;
+    }
+
+    public void setWorld(String world) {
+        this.world = world;
+    }
+
+    public void setLegion(String legion) {
+        this.legion = legion;
+    }
+
+    public void setCount(Integer count) {
+        this.count = count;
+    }
+
+    public SpaceMarine(Long id, String name, float x, int y, LocalDate creationDate, Float health, double height, String category, String weaponType, String cname, String clegion, Integer ccount, String cworld, User owner) throws FiledIncorrect {
+        this.id = id;
+        this.name = name;
+        this.creationDate = creationDate;
+        this.health = health;
+        this.height = height;
+        this.category = AstartesCategory.valueOf(category);
+        this.weaponType =Weapon.valueOf(weaponType);
+        this.owner = owner;
+        this.x=x;
+        this.y=y;
+        this.names=cname;
+        this.world=cworld;
+        this.count=ccount;
+        this.legion=clegion;
+        this.coordinates=new Coordinates(x,y);
+        this.chapter=new Chapter(cname,clegion,ccount,cworld);
+    }
 
     public void validate() throws WrongSpaceMarineException {
         try {
@@ -117,7 +161,29 @@ public class SpaceMarine implements Comparable<SpaceMarine>,Serializable {
         return chapter;
     }
 
+    public float getX() {
+        return x;
+    }
 
+    public int getY() {
+        return y;
+    }
+
+    public String getNames() {
+        return names;
+    }
+
+    public String getWorld() {
+        return world;
+    }
+
+    public String getLegion() {
+        return legion;
+    }
+
+    public Integer getCount() {
+        return count;
+    }
 
     public void setName(String name) {
         this.name = name;
@@ -164,6 +230,14 @@ public class SpaceMarine implements Comparable<SpaceMarine>,Serializable {
                 "\n\tWeaponType: " + weaponType +
                 "\n\tChapter: " + chapter
                 ;
+    }
+
+    public void setX(float x) {
+        this.x = x;
+    }
+
+    public void setY(int y) {
+        this.y = y;
     }
 
     public User getOwner() {

@@ -11,6 +11,7 @@ public class Request implements Serializable {
     private Object[] args;
     private User user;
 
+
     public Request(User user,Command command, Object[] args) {
         this.command = command;
         this.args = args;

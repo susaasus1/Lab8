@@ -1,11 +1,12 @@
 package Data;
 
+import java.io.Serializable;
 import java.time.LocalDate;
 import java.util.*;
 
-public class SpaceMarines extends LinkedList<SpaceMarine> {
+public class SpaceMarines extends LinkedList<SpaceMarine> implements Serializable {
     private LocalDate initDate;
-
+    private static final long serialVersionUID = -6565259818539791449L;
     public SpaceMarines() {
         initDate = LocalDate.now();
     }

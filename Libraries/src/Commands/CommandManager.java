@@ -18,7 +18,7 @@ import java.util.stream.Stream;
 
 public final class CommandManager {
     private static CommandManager instance;
-    private static SpaceMarines spaceMarines;
+    public static SpaceMarines spaceMarines;
     private static ArrayList<Command> commands;
     private static User user;
     private static DataBase database;
@@ -62,7 +62,7 @@ public final class CommandManager {
     public void initCommand(Class<? extends Command> clazz, String name, String description, Class<?>... argsTypes) throws CommandAlreadyExistsException, NoSuchMethodException, IllegalAccessException, InvocationTargetException, InstantiationException {
         for (Command command : commands) {
             if (command.getName().equals(name)) {
-                throw new CommandAlreadyExistsException("Команда с иминем " + name + " уже существует");
+                throw new CommandAlreadyExistsException("Команда с именем " + name + " уже существует");
             }
         }
 
@@ -70,7 +70,6 @@ public final class CommandManager {
                 .newInstance(name, description, argsTypes);
         commands.add(command);
     }
-
     /**
      * Считывает параметры команды из строки
      *
@@ -111,8 +110,8 @@ public final class CommandManager {
 
     public static String getCommandsInfo() {
         StringBuilder builder = new StringBuilder();
-        for (Command cmd : commands) {
-            builder.append(cmd.toString()).append("\n");
+        for (int i=0;i<commands.size()-1;i++) {
+            builder.append(commands.get(i).toString()).append("\n");
         }
 
         return builder.toString().trim();
@@ -122,12 +121,12 @@ public final class CommandManager {
         return user;
     }
 
-    public static String execute(User user, Command command, Object[] args) {
+    public static Object execute(User user, Command command, Object[] args) {
         return command.execute(user,database,spaceMarines, args);
 
     }
 
-    public static String execute(User user,String commandName, Object[] args) throws NotFoundCommandException {
+    public static Object execute(User user,String commandName, Object[] args) throws NotFoundCommandException {
         Command command = getCommand(commandName);
         return command.execute(user,database,spaceMarines, args);
     }

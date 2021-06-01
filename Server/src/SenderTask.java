@@ -45,6 +45,7 @@ public class SenderTask implements Runnable {
                 if (bytes.length>(BID_DATA_CONST*2)) sendBigDataAnswer(bytes, address, port, answer);
                 else {
                     socket.send(datagramPacket);
+                    System.out.println("F");
                     logger.info("Отправлен ответ на " + datagramPacket.getAddress() + ":" + datagramPacket.getPort());
                     answer.logAnswer();
                 }
@@ -67,8 +68,8 @@ public class SenderTask implements Runnable {
         partSend(bigDataAnswer,address,port,objectOutputStream,byteArrayOutputStream);
 
         objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
-        logger.info("Количество байтов: "+answer.getAnswer().getBytes().length);
-        int count = (answer.getAnswer().getBytes().length / BID_DATA_CONST + 1);
+        logger.info("Количество байтов: "+answer.getAnswer().toString().getBytes().length);
+        int count = (answer.getAnswer().toString().getBytes().length / BID_DATA_CONST + 1);
         logger.info("Количество переданных пакетов составляет "+count);
         Answer countAnswer = new OkAnswer(Integer.toString(count));
         partSend(countAnswer,address,port,objectOutputStream,byteArrayOutputStream);
@@ -76,11 +77,11 @@ public class SenderTask implements Runnable {
         for (int i=0; i<count; i++){
             Answer newAnswer;
             if (i == count-1){
-                logger.info("Количество байтов: "+answer.getAnswer().substring(i*BID_DATA_CONST).getBytes().length);
-                newAnswer = new OkAnswer(answer.getAnswer().substring(i*BID_DATA_CONST));
+                logger.info("Количество байтов: "+answer.getAnswer().toString().substring(i*BID_DATA_CONST).getBytes().length);
+                newAnswer = new OkAnswer(answer.getAnswer().toString().substring(i*BID_DATA_CONST));
             } else {
-                logger.info("Количество байтов: "+answer.getAnswer().substring(i*BID_DATA_CONST, (i+1)*BID_DATA_CONST).getBytes().length);
-                newAnswer = new OkAnswer(answer.getAnswer().substring(i*BID_DATA_CONST, (i+1)*BID_DATA_CONST));
+                logger.info("Количество байтов: "+answer.getAnswer().toString().substring(i*BID_DATA_CONST, (i+1)*BID_DATA_CONST).getBytes().length);
+                newAnswer = new OkAnswer(answer.getAnswer().toString().substring(i*BID_DATA_CONST, (i+1)*BID_DATA_CONST));
             }
             objectOutputStream = new ObjectOutputStream(byteArrayOutputStream);
             partSend(newAnswer,address,port,objectOutputStream,byteArrayOutputStream);
